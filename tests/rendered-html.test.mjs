@@ -53,6 +53,20 @@ test("keeps the login and chat usable on mobile viewports", async () => {
   assert.match(css, /\.irc-composer textarea,\s*\.edit-textarea-shell textarea\s*\{\s*font-size:\s*16px;/);
 });
 
+test("includes searchable Japanese kaomojis in both chat composers", async () => {
+  const [client, css] = await Promise.all([
+    readFile(new URL("../app/ChatApp.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+  ]);
+  assert.match(client, /const KAOMOJI_GROUPS/);
+  assert.match(client, /KAOMOJI 顔文字/);
+  assert.match(client, /Buscar categoría o kaomoji/);
+  assert.match(client, /name: "ANIMALES"/);
+  assert.match(client, /onSelect\(`\$\{item\} `/);
+  assert.match(css, /\.kaomoji-picker/);
+  assert.match(css, /\.kaomoji-groups button/);
+});
+
 test("ships the product metadata and social card", async () => {
   const [layout] = await Promise.all([
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),

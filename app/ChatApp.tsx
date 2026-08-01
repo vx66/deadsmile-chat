@@ -29,6 +29,17 @@ type DirectConversation = {
   } | null;
 };
 
+const KAOMOJI_GROUPS = [
+  { name: "FELICES", items: ["(＾▽＾)", "(⌒▽⌒)☆", "ヽ(・∀・)ﾉ", "(´｡• ᵕ •｡`)", "(￣▽￣)", "٩(◕‿◕｡)۶", "(o^▽^o)", "(ﾉ´ヮ`)ﾉ*: ･ﾟ", "＼(＾▽＾)／", "(✯ᴗ✯)"] },
+  { name: "AMOR", items: ["(♡°▽°♡)", "(´♡‿♡`)", "(｡・//ε//・｡)", "(づ￣ ³￣)づ", "(っ˘з(˘⌣˘ )", "( ˘⌣˘)♡(˘⌣˘ )", "(≧◡≦) ♡", "♡( ◡‿◡ )", "(灬♥ω♥灬)", "(｡♥‿♥｡)"] },
+  { name: "RISA", items: ["(≧▽≦)", "(๑˃ᴗ˂)ﻭ", "(ಡ艸ಡ)", "(ﾉ≧ڡ≦)", "(ᗒᗨᗕ)", "ꉂ (´∀｀)ʱªʱªʱª", "(￣y▽￣)╭", "( ˃̣̣̥᷄⌓˂̣̣̥᷅ )"] },
+  { name: "TRISTES", items: ["(╥﹏╥)", "(ಥ﹏ಥ)", "(｡•́︿•̀｡)", "(ノ_<。)", "(っ˘̩╭╮˘̩)っ", "(〒﹏〒)", "(μ_μ)", "(｡T ω T｡)", "(个_个)", "(ಥ_ಥ)"] },
+  { name: "ENOJO", items: ["(＃`Д´)", "( ` ω ´ )", "ヽ(`д´*)ノ", "(凸ಠ益ಠ)凸", "(ง •̀_•́)ง", "(҂ `з´ )", "(‡▼益▼)", "(ノ°益°)ノ", "(╬ಠ益ಠ)", "٩(╬ʘ益ʘ╬)۶"] },
+  { name: "SORPRESA", items: ["(⊙_⊙)", "(°ロ°) !", "Σ(°△°|||)", "(□_□)", "∑(O_O;)", "(o_O)", "w(°ｏ°)w", "( : ౦ ‸ ౦ : )"] },
+  { name: "ANIMALES", items: ["ฅ(•ㅅ•❀)ฅ", "(^=◕ᴥ◕=^)", "／(≧ x ≦)＼", "U・ᴥ・U", "ʕ•ᴥ•ʔ", "(=^･ω･^=)", "(◉Θ◉)", "くコ:彡", "ᶘ ᵒᴥᵒᶅ", "▼・ᴥ・▼"] },
+  { name: "ACCIÓN", items: ["ᕕ( ᐛ )ᕗ", "ᕙ(⇀‸↼‶)ᕗ", "(ง'̀-'́)ง", "(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧", "(╯°□°)╯︵ ┻━┻", "┬─┬ノ( º _ ºノ)", "༼ つ ◕_◕ ༽つ", "ヘ( ^o^)ノ＼(^_^ )", "(☞ﾟヮﾟ)☞", "☜(ﾟヮﾟ☜)"] },
+] as const;
+
 function initials(name: string) {
   return name.split(/[ ._-]/).filter(Boolean).slice(0, 2).map((part) => part[0]?.toUpperCase()).join("") || "?";
 }
@@ -44,24 +55,56 @@ function Avatar({ user, size = "md" }: { user: Pick<ChatUser, "name" | "avatarUr
 }
 
 function FullEmojiPicker({ title, onSelect, onClose }: { title: string; onSelect: (emoji: string) => void; onClose: () => void }) {
+  const [section, setSection] = useState<"emoji" | "kaomoji">("emoji");
+  const [kaomojiSearch, setKaomojiSearch] = useState("");
+  const normalizedSearch = kaomojiSearch.trim().toLocaleLowerCase();
+  const visibleKaomojiGroups = KAOMOJI_GROUPS.map((group) => ({
+    ...group,
+    items: group.items.filter((item) => !normalizedSearch || group.name.toLocaleLowerCase().includes(normalizedSearch) || item.includes(normalizedSearch)),
+  })).filter((group) => group.items.length > 0);
+
   return (
     <div className="irc-emoji-picker">
       <header>
         <span>{title}</span>
         <button type="button" onClick={onClose} aria-label="Cerrar selector de emojis">×</button>
       </header>
-      <EmojiPicker
-        theme={Theme.DARK}
-        emojiStyle={EmojiStyle.NATIVE}
-        width="100%"
-        height={390}
-        lazyLoadEmojis
-        autoFocusSearch={false}
-        searchPlaceholder="Buscar emoji..."
-        searchClearButtonLabel="Limpiar búsqueda"
-        previewConfig={{ showPreview: false }}
-        onEmojiClick={(item) => onSelect(item.emoji)}
-      />
+      <div className="emoji-picker-tabs" role="tablist" aria-label="Tipo de emoticón">
+        <button type="button" role="tab" aria-selected={section === "emoji"} className={section === "emoji" ? "active" : ""} onClick={() => setSection("emoji")}>EMOJIS</button>
+        <button type="button" role="tab" aria-selected={section === "kaomoji"} className={section === "kaomoji" ? "active" : ""} onClick={() => setSection("kaomoji")}>KAOMOJI 顔文字</button>
+      </div>
+      {section === "emoji" ? (
+        <EmojiPicker
+          theme={Theme.DARK}
+          emojiStyle={EmojiStyle.NATIVE}
+          width="100%"
+          height={390}
+          lazyLoadEmojis
+          autoFocusSearch={false}
+          searchPlaceholder="Buscar emoji..."
+          searchClearButtonLabel="Limpiar búsqueda"
+          previewConfig={{ showPreview: false }}
+          onEmojiClick={(item) => onSelect(item.emoji)}
+        />
+      ) : (
+        <section className="kaomoji-picker" role="tabpanel" aria-label="Kaomojis japoneses">
+          <label className="kaomoji-search">
+            <span>⌕</span>
+            <input value={kaomojiSearch} onChange={(event) => setKaomojiSearch(event.target.value)} placeholder="Buscar categoría o kaomoji..." aria-label="Buscar kaomoji" />
+          </label>
+          <div className="kaomoji-groups">
+            {visibleKaomojiGroups.map((group) => (
+              <section key={group.name}>
+                <h3>{group.name} <span>{group.items.length.toString().padStart(2, "0")}</span></h3>
+                <div>
+                  {group.items.map((item) => <button type="button" key={item} onClick={() => onSelect(`${item} `)} title={`Insertar ${item}`}>{item}</button>)}
+                </div>
+              </section>
+            ))}
+            {!visibleKaomojiGroups.length && <p className="kaomoji-empty">NO SIGNAL // No se encontró ese kaomoji.</p>}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

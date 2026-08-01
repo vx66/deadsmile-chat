@@ -172,6 +172,26 @@ button { color: inherit; }
 .irc-emoji-picker .epr-search-container input { border: 1px solid #3a2635; border-radius: 0; color: #eadde6; font: 12px/1 var(--font-code); }
 .irc-emoji-picker .epr-search-container input:focus { border-color: var(--cyan); box-shadow: 0 0 0 1px rgba(0,246,255,.22); }
 .irc-emoji-picker .epr-emoji-category-label { color: #8d7484; font: 9px/1 var(--font-code); letter-spacing: .1em; text-transform: uppercase; }
+.emoji-picker-tabs { height: 38px; display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid #362331; background: #08060a; }
+.emoji-picker-tabs button { border: 0; border-right: 1px solid #362331; background: transparent; color: #786b74; cursor: pointer; font: 9px/1 var(--font-code); letter-spacing: .1em; }
+.emoji-picker-tabs button:last-child { border-right: 0; }
+.emoji-picker-tabs button:hover { color: var(--cyan); background: rgba(0,230,255,.045); }
+.emoji-picker-tabs button.active { color: var(--pink); background: linear-gradient(180deg, rgba(255,42,144,.1), transparent); box-shadow: inset 0 -2px var(--pink); text-shadow: 0 0 8px rgba(255,42,144,.55); }
+.kaomoji-picker { height: 390px; min-height: 0; display: grid; grid-template-rows: 49px minmax(0,1fr); background: radial-gradient(circle at 82% 8%, rgba(0,230,255,.055), transparent 30%), #08060a; }
+.kaomoji-search { display: grid; grid-template-columns: 29px minmax(0,1fr); align-items: center; margin: 8px; border: 1px solid #3a2635; background: #100c12; }
+.kaomoji-search:focus-within { border-color: var(--cyan); box-shadow: 0 0 0 1px rgba(0,230,255,.18); }
+.kaomoji-search span { color: var(--cyan); text-align: center; font: 15px/1 var(--font-code); }
+.kaomoji-search input { min-width: 0; height: 31px; border: 0; outline: 0; background: transparent; color: #eadde6; font: 12px/1 var(--font-code); }
+.kaomoji-search input::placeholder { color: #61535c; }
+.kaomoji-groups { min-height: 0; overflow-y: auto; padding: 3px 8px 12px; scrollbar-color: #5a2948 transparent; }
+.kaomoji-groups > section { margin-top: 12px; }
+.kaomoji-groups h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 7px; color: var(--cyan); font: 9px/1 var(--font-code); letter-spacing: .13em; }
+.kaomoji-groups h3::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, #294a50, transparent); }
+.kaomoji-groups h3 span { order: 2; color: #6d5c66; font-size: 8px; }
+.kaomoji-groups > section > div { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 5px; }
+.kaomoji-groups button { min-width: 0; min-height: 39px; overflow: hidden; padding: 6px 8px; border: 1px solid #32232d; background: #0d0a0f; color: #e7dde3; cursor: pointer; font: 13px/1.15 var(--font-code); text-overflow: ellipsis; white-space: nowrap; }
+.kaomoji-groups button:hover, .kaomoji-groups button:focus-visible { border-color: var(--pink); outline: 0; background: linear-gradient(90deg, rgba(255,42,144,.12), rgba(0,230,255,.045)); color: white; box-shadow: inset 2px 0 var(--pink), 0 0 9px rgba(255,42,144,.08); }
+.kaomoji-empty { margin: 55px 12px; color: #796773; font: 10px/1.5 var(--font-code); text-align: center; }
 
 /* Real participants */
 .irc-people { min-width: 0; min-height: 0; display: grid; grid-template-rows: 48px auto 1fr 33px; background: #080c0e; border-left: 1px solid var(--line); }
@@ -308,6 +328,9 @@ button { color: inherit; }
   .irc-composer > small { display: none; }
   .irc-emoji-picker { right: -4px; bottom: 48px; width: min(360px, calc(100vw - 18px)); max-width: none; }
   .irc-emoji-picker > .EmojiPickerReact { height: min(390px, 58vh) !important; }
+  .kaomoji-picker { height: min(390px, 58vh); }
+  .kaomoji-search input { font-size: 16px; }
+  .kaomoji-groups > section > div { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
   .irc-statusbar span:nth-child(3), .irc-statusbar span:last-child { display: none; }
   .dashboard-head { padding: 18px 14px; }
   .dashboard-head h2 { font-size: 23px; }
