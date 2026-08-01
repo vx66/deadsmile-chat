@@ -45,6 +45,14 @@ test("builds the Dead Smile product shell", async () => {
   assert.doesNotMatch(`${client}${layout}`, /codex-preview|react-loading-skeleton/i);
 });
 
+test("keeps the login and chat usable on mobile viewports", async () => {
+  const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
+  assert.match(css, /\.irc-gateway\s*\{[\s\S]*?height:\s*100dvh;[\s\S]*?overflow-y:\s*auto;/);
+  assert.match(css, /\.terminal-login-visual\s*\{\s*height:\s*clamp\(130px,\s*24dvh,\s*175px\);/);
+  assert.match(css, /\.irc-people\s*\{\s*position:\s*fixed;[\s\S]*?bottom:\s*calc\(27px \+ env\(safe-area-inset-bottom\)\);/);
+  assert.match(css, /\.irc-composer textarea,\s*\.edit-textarea-shell textarea\s*\{\s*font-size:\s*16px;/);
+});
+
 test("ships the product metadata and social card", async () => {
   const [layout] = await Promise.all([
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),

@@ -773,3 +773,67 @@ button { color: inherit; }
   .direct-empty { margin-top: 6vh; padding: 21px 16px; }
   .direct-composer { margin-inline: 7px; }
 }
+
+/* Mobile viewport and touch fixes. Keep this block last so the late visual
+   theme cannot move the people drawer back into the chat grid. */
+@media (max-width: 620px) {
+  .irc-gateway {
+    height: 100dvh;
+    min-height: 100svh;
+    place-items: start center;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    padding: max(10px, env(safe-area-inset-top)) 10px max(18px, env(safe-area-inset-bottom));
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .terminal-login-stage {
+    min-height: 0;
+    box-shadow: 5px 5px 0 #080308;
+  }
+
+  .terminal-login-visual {
+    height: clamp(130px, 24dvh, 175px);
+  }
+
+  .terminal-login {
+    padding: 22px 18px calc(24px + env(safe-area-inset-bottom));
+  }
+
+  .terminal-login-kicker { font-size: 10px; }
+  .terminal-login-face { display: none; }
+  .terminal-login h1 { margin-top: 18px; font-size: 34px; }
+  .terminal-login-copy { margin: 13px 0 16px; font-size: 13px; line-height: 1.5; }
+  .terminal-command { display: none; }
+  .terminal-form { margin-top: 22px; }
+  .terminal-form h2 { margin-bottom: 16px; font-size: 21px; }
+  .terminal-form label { margin-top: 13px; }
+  .terminal-input { height: 52px; }
+  .terminal-primary { height: 50px; margin-top: 18px; }
+  .terminal-options { gap: 10px; margin-top: 18px; }
+  .terminal-login-footer { flex-wrap: wrap; margin-top: 24px; }
+
+  .irc-shell {
+    height: 100dvh;
+    min-height: 100svh;
+    grid-template-rows: 64px minmax(0, 1fr) calc(27px + env(safe-area-inset-bottom));
+  }
+
+  .irc-workspace,
+  .irc-chat { min-height: 0; }
+
+  .irc-people {
+    position: fixed;
+    z-index: 35;
+    top: 64px;
+    right: 0;
+    bottom: calc(27px + env(safe-area-inset-bottom));
+    width: min(285px, calc(100vw - 40px));
+    height: auto;
+  }
+
+  .irc-composer textarea,
+  .edit-textarea-shell textarea {
+    font-size: 16px;
+  }
+}
