@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1785573155975,
+      "tag": "0000_dead-smile-chat",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1785574967950,
+      "tag": "0001_irc-admin-location",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1785607395092,
+      "tag": "0002_presence-message-controls",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1785609610545,
+      "tag": "0003_message-replies",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1785612490757,
+      "tag": "0004_private-channels",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1785613177524,
+      "tag": "0005_mute_tyrannus",
+      "breakpoints": true
+    }
+  ]
+}
